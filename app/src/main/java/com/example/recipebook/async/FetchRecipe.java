@@ -29,7 +29,7 @@ public class FetchRecipe extends AsyncTask<String, Integer, String> {
 
     private WeakReference<TextView> tvTags, tvArea, tvIngredients,tvMeasure, tvInstruction, tvEquivalent ;
     private WeakReference<ImageView> ivYoutube;
-    private Context context;
+    private WeakReference<Context>  context;
 
 
     public FetchRecipe(TextView tvEquivalent,TextView tvTags, TextView tvArea, TextView tvIngredients, TextView tvMeasure, TextView tvInstruction, ImageView ivYoutube, Context context) {
@@ -40,7 +40,7 @@ public class FetchRecipe extends AsyncTask<String, Integer, String> {
         this.tvMeasure =  new WeakReference<>(tvMeasure);
         this.tvInstruction =  new WeakReference<>(tvInstruction);
         this.ivYoutube = new WeakReference<>(ivYoutube);
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
@@ -50,22 +50,12 @@ public class FetchRecipe extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String s) {
-
         try {
-            // Convert the response into a JSON object.
             JSONObject jsonObject = new JSONObject(s);
-            // Get the JSONArray of book items.
+
             JSONArray itemsArray = jsonObject.getJSONArray("meals");
 
-
-
-            // Initialize iterator and results fields.
-            String tags = null;
-            String area = null;
             Recipe recipes = null;
-
-            // Look for results in the items array, exiting when both the
-            // title and author are found or when all items have been checked.
 
             for (int i = 0; i < itemsArray.length(); i++) {
                 JSONObject recipe = itemsArray.getJSONObject(i);
@@ -95,7 +85,7 @@ public class FetchRecipe extends AsyncTask<String, Integer, String> {
                 ivYoutube.get().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalRecipes.getStrYoutube())));
+                        context.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(finalRecipes.getStrYoutube())));
                     }
                 });
 
@@ -107,16 +97,9 @@ public class FetchRecipe extends AsyncTask<String, Integer, String> {
                     tvIngredients.get().append("- " + itemsArray.getJSONObject(0).getString("strIngredient" + i) + "\n" );
                     tvMeasure.get().append(itemsArray.getJSONObject(0).getString("strMeasure1" + i) + "\n" );
                 }
-
-
             }
 
-
-
         } catch (Exception e) {
-            // If onPostExecute() does not receive a proper JSON string,
-            // update the UI to show failed results.
-
             e.printStackTrace();
         }
     }
