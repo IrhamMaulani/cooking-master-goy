@@ -2,35 +2,22 @@ package com.example.recipebook;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.recipebook.Model.Meal;
-import com.example.recipebook.async.FetchCategoryBook;
 import com.example.recipebook.async.FetchRecipe;
 
 public class RecipeAcitivity extends AppCompatActivity {
 
-    private Menu menu;
-
     ImageView ivFood, ivYoutube;
-
+    TextView tvTags, tvArea, tvIngredients, tvMeasure, tvInstruction, tvEquivalent;
     private Meal meal;
-
-    TextView tvTags, tvArea,tvIngredients,tvMeasure, tvInstruction, tvEquivalent;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +28,15 @@ public class RecipeAcitivity extends AppCompatActivity {
 
         meal = getIntent().getParcelableExtra(MealActivity.EXTRA_MESSAGE);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(meal.getStrMeal());
         }
 
         ivFood = findViewById(R.id.iv_food);
 
         Glide.with(this)
-                .load( meal.getStrMealThumb())
+                .load(meal.getStrMealThumb())
                 .apply(new RequestOptions()
                         .placeholder(R.drawable.loading)
                         .dontAnimate()
@@ -64,9 +52,7 @@ public class RecipeAcitivity extends AppCompatActivity {
 
         ivYoutube = findViewById(R.id.iv_youtube);
 
-        new FetchRecipe(tvEquivalent, tvTags, tvArea , tvIngredients, tvMeasure, tvInstruction, ivYoutube,this).execute("lookup.php", "i", meal.getIdMeal());
-
-
+        new FetchRecipe(tvEquivalent, tvTags, tvArea, tvIngredients, tvMeasure, tvInstruction, ivYoutube, this).execute("lookup.php", "i", meal.getIdMeal());
 
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -89,21 +75,13 @@ public class RecipeAcitivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_info) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
