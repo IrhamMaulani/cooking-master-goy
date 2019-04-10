@@ -1,6 +1,8 @@
 package com.example.recipebook;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +16,7 @@ import com.example.recipebook.async.FetchCategoryBook;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView rvCategory;
 
@@ -25,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE =
             "com.example.android.RecipeBook.extra.MESSAGE";
 
+    private SwipeRefreshLayout swipeRefresh;
+
+    private CategoryListAdapter categoryListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_loader);
 
+        swipeRefresh =  findViewById(R.id.container);
+        swipeRefresh.setOnRefreshListener(this);
+
         list = new ArrayList<>();
 
         rvCategory.setLayoutManager(new GridLayoutManager(this, 2));
-        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this);
+         categoryListAdapter = new CategoryListAdapter(this);
         categoryListAdapter.setListCategory(list);
         rvCategory.setAdapter(categoryListAdapter);
 
-        new FetchCategoryBook(list, progressBar , categoryListAdapter).execute();
+        getData(progressBar, categoryListAdapter);
 
         ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -56,5 +65,24 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, categories.getStrCategory());
         startActivity(intent);
     }
+
+    private void getData(ProgressBar progressBar, CategoryListAdapter categoryListAdapter){
+        new FetchCategoryBook(list, progressBar , categoryListAdapter).execute();
     }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                swipeRefresh.setRefreshing(false);
+
+
+                getData(progressBar, categoryListAdapter);
+
+            }
+        },2000);
+    }
+}
 
