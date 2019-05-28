@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.recipebook.Model.Meal;
+import com.example.recipebook.model.Meal;
 import com.example.recipebook.adapter.MealListAdapter;
-import com.example.recipebook.async.FetchMeal;
+
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class MealActivity extends AppCompatActivity {
         mealListAdapter.setListMeal(list);
         rvCategory.setAdapter(mealListAdapter);
 
-        new FetchMeal(list, progressBar , mealListAdapter).execute("filter.php", "c", strCateogry);
+//        new FetchMeal(list, progressBar , mealListAdapter).execute("filter.php", "c", strCateogry);
 
         ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override

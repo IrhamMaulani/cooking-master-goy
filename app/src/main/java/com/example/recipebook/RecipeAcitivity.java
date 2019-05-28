@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.recipebook.Model.Meal;
-import com.example.recipebook.async.FetchRecipe;
+import com.example.recipebook.model.Meal;
 
 public class RecipeAcitivity extends AppCompatActivity {
 
@@ -52,7 +51,7 @@ public class RecipeAcitivity extends AppCompatActivity {
 
         ivYoutube = findViewById(R.id.iv_youtube);
 
-        new FetchRecipe(tvEquivalent, tvTags, tvArea, tvIngredients, tvMeasure, tvInstruction, ivYoutube, this).execute("lookup.php", "i", meal.getIdMeal());
+//        new FetchRecipe(tvEquivalent, tvTags, tvArea, tvIngredients, tvMeasure, tvInstruction, ivYoutube, this).execute("lookup.php", "i", meal.getIdMeal());
 
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {

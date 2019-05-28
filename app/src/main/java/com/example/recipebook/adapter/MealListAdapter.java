@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.recipebook.Model.Meal;
+import com.example.recipebook.model.Meal;
 import com.example.recipebook.R;
 
 import java.util.ArrayList;

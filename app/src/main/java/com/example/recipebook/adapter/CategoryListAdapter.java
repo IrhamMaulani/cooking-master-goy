@@ -11,24 +11,25 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.recipebook.Model.Categories;
+import com.example.recipebook.model.Category;
 import com.example.recipebook.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.GridViewHolder> {
     private Context context;
-    private ArrayList<Categories> listCategories;
+    private ArrayList<Category> listCategories;
 
     public CategoryListAdapter(Context context) {
         this.context = context;
     }
 
-    private ArrayList<Categories> getListCategory() {
+    private ArrayList<Category> getListCategory() {
         return listCategories;
     }
 
-    public void setListCategory(ArrayList<Categories> listQueue) {
+    public void setListCategory(ArrayList<Category> listQueue) {
         this.listCategories = listQueue;
     }
 
@@ -50,6 +51,11 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                         .dontAnimate()
                         .centerCrop())
                 .into(holder.ivCategory);
+    }
+
+    public void setCategory(ArrayList<Category> category){
+        listCategories = category;
+        notifyDataSetChanged();
     }
 
     @Override

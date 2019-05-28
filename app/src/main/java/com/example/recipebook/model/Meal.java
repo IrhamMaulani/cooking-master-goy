@@ -1,4 +1,4 @@
-package com.example.recipebook.Model;
+package com.example.recipebook.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

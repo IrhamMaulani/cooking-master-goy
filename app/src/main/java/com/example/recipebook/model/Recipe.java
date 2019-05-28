@@ -1,4 +1,4 @@
-package com.example.recipebook.Model;
+package com.example.recipebook.model;
 
 import org.json.JSONObject;
 
