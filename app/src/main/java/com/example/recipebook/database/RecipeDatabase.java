@@ -8,12 +8,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.recipebook.dao.CategoryDao;
+import com.example.recipebook.dao.MealDao;
 import com.example.recipebook.model.Category;
+import com.example.recipebook.model.Meal;
 
-@Database(entities = {Category.class}, version = 1, exportSchema = false)
+@Database(entities = {Category.class , Meal.class}, version = 2, exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
+
+    public abstract MealDao mealDao();
 
     private static RecipeDatabase INSTANCE;
 

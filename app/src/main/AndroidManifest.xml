@@ -12,18 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".RecipeAcitivity"
-            android:label="@string/title_activity_recipe_acitivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".MealActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".RecipeAcitivity"
+            android:label="@string/title_activity_recipe_acitivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MealActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

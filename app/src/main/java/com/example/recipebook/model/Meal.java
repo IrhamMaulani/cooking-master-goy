@@ -1,27 +1,49 @@
 package com.example.recipebook.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
+@Entity(tableName = "meal_table")
 public class Meal implements Parcelable {
 
-    private String strMeal,strMealThumb,idMeal;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "idMeal")
+    @SerializedName("idMeal")
+    private String idMeal;
+
+    @ColumnInfo(name = "strMeal")
+    @SerializedName("strMeal")
+    private String strMeal;
+
+    @ColumnInfo(name = "strMealThumb")
+    @SerializedName("strMealThumb")
+    private String strMealThumb;
+
+    @ColumnInfo(name = "strCategory")
+    @SerializedName("strCategory")
+    private String strCategory;
+
+    public Meal() {
+
+    }
 
 
-    public Meal(JSONObject object){
-        try {
-            String strMeal = object.getString("strMeal");
-            String strMealThumb = object.getString("strMealThumb");
-            String idMeal = object.getString("idMeal");
-            this.strMeal = strMeal;
-            this.strMealThumb = strMealThumb;
-            this.idMeal = idMeal;
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public String getStrCategory() {
+        return strCategory;
+    }
+
+    public void setStrCategory(String strCategory) {
+        this.strCategory = strCategory;
     }
 
     public String getStrMeal() {
@@ -61,7 +83,7 @@ public class Meal implements Parcelable {
         dest.writeString(this.idMeal);
     }
 
-    protected Meal(Parcel in) {
+    public Meal(Parcel in) {
         this.strMeal = in.readString();
         this.strMealThumb = in.readString();
         this.idMeal = in.readString();

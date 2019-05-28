@@ -15,13 +15,17 @@ public class CategoryViewModel extends AndroidViewModel {
 
     private LiveData<List<Category>> allCategory;
 
+    private Category anyCategory;
+
     public CategoryViewModel (Application application) {
         super(application);
         categoryRepository = new CategoryRepository(application);
         allCategory = categoryRepository.getAllCategory();
+
     }
 
     public LiveData<List<Category>> getAllCategory() { return allCategory; }
+
 
     public void insert(Category word) { categoryRepository.insert(word); }
 }

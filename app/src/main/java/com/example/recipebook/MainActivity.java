@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,17 +43,16 @@ public class MainActivity extends AppCompatActivity  {
 
     private ArrayList<Category> list;
 
-    ApiInterface apiInterface;
 
     public static final String EXTRA_MESSAGE =
             "com.example.android.RecipeBook.extra.MESSAGE";
 
     @BindView(R.id.container)
-     SwipeRefreshLayout swipeRefresh;
+    ConstraintLayout constraintLayout;
 
     private CategoryListAdapter categoryListAdapter;
 
-    private Snackbar snackbar;
+
 
     private CategoryViewModel categoryViewModel;
 
@@ -63,12 +63,7 @@ public class MainActivity extends AppCompatActivity  {
 
         ButterKnife.bind(this);
 
-        apiInterface = ApiClient.getClient().create(ApiInterface.class);
-
-
-//        swipeRefresh.setOnRefreshListener(this);
-
-        snackbar = Snackbar.make(swipeRefresh, R.string.check_your_connection, Snackbar.LENGTH_INDEFINITE);
+        progressBar.setVisibility(View.INVISIBLE);
 
         list = new ArrayList<>();
 
@@ -79,13 +74,14 @@ public class MainActivity extends AppCompatActivity  {
 
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        getData();
+//        getData();
 
         categoryViewModel.getAllCategory().observe(this, new Observer<List<Category>>() {
             @Override
-            public void onChanged(@Nullable final List<Category> words) {
+            public void onChanged(@Nullable final List<Category> categories) {
                 // Update the cached copy of the words in the adapter.
-                categoryListAdapter.setCategory((ArrayList<Category>) words);
+                categoryListAdapter.setCategory((ArrayList<Category>) categories);
+                list = (ArrayList<Category>) categories;
             }
         });
 
@@ -103,58 +99,5 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
-  public void getData(){
-
-      Call<CategoryResponse> call = apiInterface.getCategoriesList();
-      call.enqueue(new Callback<CategoryResponse>() {
-          @Override
-          public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse>
-                  response) {
-
-
-              if (response.isSuccessful()) {
-                  snackbar.dismiss();
-                  list = (ArrayList<Category>) response.body().getCategory();
-                  generateData(list);
-              }
-          }
-
-          @Override
-          public void onFailure(Call<CategoryResponse> call, Throwable t) {
-              snackbar.show();
-              Log.e("Retrofit Get", t.toString());
-          }
-      });
-  }
-
-    private void generateData(ArrayList<Category> categories) {
-//        categoryListAdapter.setListCategory(categories);
-//        categoryListAdapter.notifyDataSetChanged();
-//        progressBar.setVisibility(View.INVISIBLE);
-
-        int z = 1;
-
-        if(z > 2){
-            for (int i = 1 ; i < categories.size(); i++){
-                categoryViewModel.insert(categories.get(i));
-            }
-        }
-
-    }
-
-
-//    @Override
-//    public void onRefresh() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                swipeRefresh.setRefreshing(false);
-//
-//                getData();
-//
-//            }
-//        },2000);
-//    }
 }
 

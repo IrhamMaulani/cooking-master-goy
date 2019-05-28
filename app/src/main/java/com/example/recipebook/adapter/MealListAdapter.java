@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.recipebook.model.Category;
 import com.example.recipebook.model.Meal;
 import com.example.recipebook.R;
 
@@ -30,6 +31,11 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.GridVi
 
     public void setListMeal(ArrayList<Meal> listMeal) {
         this.listMeal = listMeal;
+    }
+
+    public void setMeal(ArrayList<Meal> meal){
+        listMeal = meal;
+        notifyDataSetChanged();
     }
 
     @NonNull

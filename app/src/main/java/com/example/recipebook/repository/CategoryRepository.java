@@ -14,16 +14,20 @@ public class CategoryRepository {
 
     private CategoryDao categoryDao;
     private LiveData<List<Category>> allCategory;
+    private Category anyCategory;
 
     public CategoryRepository(Application application) {
         RecipeDatabase db = RecipeDatabase.getDatabase(application);
         categoryDao = db.categoryDao();
         allCategory = categoryDao.getAllCategory();
+
     }
 
     public LiveData<List<Category>> getAllCategory() {
         return allCategory;
     }
+
+
 
     public void insert (Category category) {
         new insertAsyncTask(categoryDao).execute(category);

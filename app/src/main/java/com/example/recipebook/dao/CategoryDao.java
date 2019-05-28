@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.example.recipebook.model.Category;
+import com.example.recipebook.model.Recipe;
 
 import java.util.List;
 
@@ -20,5 +21,10 @@ public interface CategoryDao {
 
     @Query("SELECT * from category_table ORDER BY idCategory ASC")
     LiveData<List<Category>> getAllCategory();
+
+
+
+    @Query("SELECT * FROM category_table LIMIT 1")
+    Category getAnyCategory();
 
 }
