@@ -19,7 +19,7 @@ public interface MealDao {
     @Query("DELETE FROM meal_table")
     void deleteAll();
 
-    @Query("SELECT * from meal_table")
+    @Query("SELECT * from meal_table ORDER BY idMeal ASC")
     LiveData<List<Meal>> getAllMeal();
 
     @Query("SELECT * FROM meal_table LIMIT 1")

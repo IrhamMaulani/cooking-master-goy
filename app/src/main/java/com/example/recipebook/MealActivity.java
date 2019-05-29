@@ -25,6 +25,7 @@ import com.example.recipebook.viewmodel.MealViewModel;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,6 +47,8 @@ public class MealActivity extends AppCompatActivity {
     MealViewModel mealViewModel;
 
     String strCategory;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +82,26 @@ public class MealActivity extends AppCompatActivity {
         mealViewModel = ViewModelProviders.of(this).get(MealViewModel.class);
 
 
+
         mealViewModel.getAllCategory().observe(this, new Observer<List<Meal>>() {
             @Override
-            public void onChanged(@Nullable final List<Meal> categories) {
+            public void onChanged(@Nullable final List<Meal> meals) {
                 // Update the cached copy of the words in the adapter.
-                mealListAdapter.setMeal((ArrayList<Meal>) categories);
-                list = (ArrayList<Meal>) categories;
+                ArrayList<Meal> result = new ArrayList<>();
+
+
+                for (Meal meal: meals) {
+                    if (meal.getStrCategory().equals(strCategory)) {
+
+
+                            result.add(meal);
+
+                    }
+                }
+
+
+                mealListAdapter.setMeal(result);
+                list = result;
             }
         });
 
@@ -129,21 +146,19 @@ public class MealActivity extends AppCompatActivity {
     private void insertData(ArrayList<Meal> meals) {
         try {
             for (int i = 0; i < meals.size(); i++) {
-
                 meals.get(i).setStrCategory(strCategory);
                 mealViewModel.insert(meals.get(i));
-
-
             }
-
-
-
-
-
 
         } catch (Exception e) {
             Log.d("ERROR", "" + e);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        result.clear();
+        super.onBackPressed();
     }
+}
 

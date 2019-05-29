@@ -2,6 +2,8 @@ package com.example.recipebook;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,8 @@ import com.example.recipebook.viewmodel.CategoryViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,11 +34,18 @@ public class SplashScreenActivity extends AppCompatActivity {
      CategoryViewModel categoryViewModel;
     AppPreference appPreference;
 
+    @BindView(R.id.main_layout)
+    ConstraintLayout mainLayout;
+
+    private Snackbar snackbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        ButterKnife.bind(this);
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -45,6 +56,8 @@ public class SplashScreenActivity extends AppCompatActivity {
          appPreference =  new AppPreference(this);
 
         Boolean firstRun = appPreference.getFirstRun();
+
+        snackbar = Snackbar.make(mainLayout, R.string.check_your_connection, Snackbar.LENGTH_INDEFINITE);
 
          if(firstRun) {
              getData();
@@ -66,6 +79,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
+                    snackbar.dismiss();
+
                     list = (ArrayList<Category>) response.body().getCategory();
                     insertData(list);
                 }
@@ -73,6 +88,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                snackbar.show();
                 Log.e("Retrofit Get", t.toString());
             }
         });
