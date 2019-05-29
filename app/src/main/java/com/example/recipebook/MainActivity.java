@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity  {
     @BindView(R.id.progress_loader)
      ProgressBar progressBar;
 
+
+
     private ArrayList<Category> list;
 
 

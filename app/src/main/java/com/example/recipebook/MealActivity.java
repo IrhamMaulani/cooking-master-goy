@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +50,9 @@ public class MealActivity extends AppCompatActivity {
 
     String strCategory;
 
+    private Snackbar snackbar;
 
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class MealActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(strCategory);
         }
 
+        constraintLayout = findViewById(R.id.container);
+
         rvCategory = findViewById(R.id.rv_category);
 
         progressBar = findViewById(R.id.progress_loader);
@@ -71,6 +77,8 @@ public class MealActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         list = new ArrayList<>();
+
+        snackbar = Snackbar.make(constraintLayout, R.string.check_your_connection, Snackbar.LENGTH_INDEFINITE);
 
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
         final MealListAdapter mealListAdapter = new MealListAdapter(this);
@@ -90,12 +98,14 @@ public class MealActivity extends AppCompatActivity {
                 ArrayList<Meal> result = new ArrayList<>();
 
 
-                for (Meal meal: meals) {
-                    if (meal.getStrCategory().equals(strCategory)) {
+                if (meals != null) {
+                    for (Meal meal: meals) {
+                        if (meal.getStrCategory().equals(strCategory)) {
 
 
-                            result.add(meal);
+                                result.add(meal);
 
+                        }
                     }
                 }
 
@@ -130,7 +140,7 @@ public class MealActivity extends AppCompatActivity {
                     response) {
 
                 if (response.isSuccessful()) {
-
+                    snackbar.dismiss();
                     list = (ArrayList<Meal>) response.body().getMeal();
                     insertData(list);
                 }
@@ -138,6 +148,7 @@ public class MealActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MealResponse> call, Throwable t) {
+                snackbar.show();
                 Log.e("Retrofit Get", t.toString());
             }
         });
