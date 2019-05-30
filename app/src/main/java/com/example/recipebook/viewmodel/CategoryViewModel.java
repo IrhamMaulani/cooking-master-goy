@@ -21,11 +21,12 @@ public class CategoryViewModel extends AndroidViewModel {
         super(application);
         categoryRepository = new CategoryRepository(application);
         allCategory = categoryRepository.getAllCategory();
-
     }
 
     public LiveData<List<Category>> getAllCategory() { return allCategory; }
 
 
-    public void insert(Category word) { categoryRepository.insert(word); }
+    public void insert(Category word) {
+        categoryRepository.insert(word);
+    }
 }
