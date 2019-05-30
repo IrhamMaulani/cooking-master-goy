@@ -89,32 +89,15 @@ public class MealActivity extends AppCompatActivity {
 
         mealViewModel = ViewModelProviders.of(this).get(MealViewModel.class);
 
-
-
-        mealViewModel.getAllCategory().observe(this, new Observer<List<Meal>>() {
+        mealViewModel.getAllCategory(strCategory).observe(this, new Observer<List<Meal>>() {
             @Override
             public void onChanged(@Nullable final List<Meal> meals) {
                 // Update the cached copy of the words in the adapter.
-                ArrayList<Meal> result = new ArrayList<>();
 
-
-                if (meals != null) {
-                    for (Meal meal: meals) {
-                        if (meal.getStrCategory().equals(strCategory)) {
-
-
-                                result.add(meal);
-
-                        }
-                    }
-                }
-
-
-                mealListAdapter.setMeal(result);
-                list = result;
+                mealListAdapter.setMeal((ArrayList<Meal>) meals);
+                list = (ArrayList<Meal>) meals;
             }
         });
-
 
         ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -128,7 +111,6 @@ public class MealActivity extends AppCompatActivity {
         Intent moveWithObjectIntent = new Intent(this, RecipeAcitivity.class);
         moveWithObjectIntent.putExtra(EXTRA_MESSAGE, meals);
         startActivity(moveWithObjectIntent);
-
     }
 
     public void getData(String strCategory){

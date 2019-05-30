@@ -3,6 +3,7 @@ package com.example.recipebook.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import com.example.recipebook.model.Category;
 import com.example.recipebook.model.Meal;
@@ -24,16 +25,15 @@ public class MealViewModel extends AndroidViewModel {
 
     public MealViewModel(Application application) {
         super(application);
-
         mealRepository = new MealRepository(application);
-        allMeal = mealRepository.getAllMeal();
+//        allMeal = mealRepository.getAllMeal(strCategory);
 
     }
 
-
-
-    public LiveData<List<Meal>> getAllCategory() {
-        return allMeal; }
+    public LiveData<List<Meal>> getAllCategory(String strCategory) {
+       allMeal =  mealRepository.getAllMeal(strCategory);
+        return allMeal;
+    }
 
 
     public void insert(Meal meal) { mealRepository.insert(meal); }

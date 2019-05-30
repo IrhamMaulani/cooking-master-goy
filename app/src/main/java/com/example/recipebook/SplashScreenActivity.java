@@ -76,7 +76,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse>
                     response) {
-
                 if (response.isSuccessful()) {
 
                     snackbar.dismiss();
@@ -95,7 +94,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void insertData(ArrayList<Category> categories) {
-
             try {
                 for (int i = 1; i < categories.size(); i++) {
 
@@ -107,12 +105,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-
             } catch (Exception e) {
                 Log.d("ERROR", "" + e);
             }
         }
-
-
     }
 

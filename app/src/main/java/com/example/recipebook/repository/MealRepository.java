@@ -3,6 +3,7 @@ package com.example.recipebook.repository;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.recipebook.dao.MealDao;
 import com.example.recipebook.database.RecipeDatabase;
@@ -16,20 +17,20 @@ public class MealRepository {
     private MealDao mealDao;
     private LiveData<List<Meal>> allMeal;
     private Category anyCategory;
+    private String strCategory;
+    private RecipeDatabase db;
 
     public MealRepository(Application application) {
-        RecipeDatabase db = RecipeDatabase.getDatabase(application);
-        mealDao = db.mealDao();
-        allMeal = mealDao.getAllMeal();
+        this.db = RecipeDatabase.getDatabase(application);
+
     }
 
 
-
-    public LiveData<List<Meal>> getAllMeal() {
-
+    public LiveData<List<Meal>> getAllMeal(String strCategory) {
+        mealDao = db.mealDao();
+        allMeal = mealDao.getAllMeal(strCategory);
         return allMeal;
     }
-
 
 
     public void insert (Meal meal) {

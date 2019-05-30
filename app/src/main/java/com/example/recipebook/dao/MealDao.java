@@ -19,8 +19,8 @@ public interface MealDao {
     @Query("DELETE FROM meal_table")
     void deleteAll();
 
-    @Query("SELECT * from meal_table ORDER BY idMeal ASC")
-    LiveData<List<Meal>> getAllMeal();
+    @Query("SELECT * from meal_table WHERE strCategory = :strCategory ")
+    LiveData<List<Meal>> getAllMeal(String strCategory);
 
     @Query("SELECT * FROM meal_table LIMIT 1")
     Meal getAnyCategory();
